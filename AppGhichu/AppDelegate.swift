@@ -1,9 +1,3 @@
-//
-//  AppDelegate.swift
-//  AppGhichu
-//
-//  Created by nguyễn xuân chiến on 4/9/25.
-//
 import UIKit
 
 @main
@@ -26,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let noteId = DatabaseHelper.shared.insertNote(
             title: "Ghi chú đầu tiên",
             content: "Nội dung thử",
-            date: "2025-10-12"
+            date: Date()
         ) {
             let noteLink = "appghichu://note/\(noteId)"
             print("🔗 Đường link ghi chú mới: \(noteLink)")

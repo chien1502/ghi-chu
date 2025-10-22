@@ -12,8 +12,8 @@ class NoteDetailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bodyTextView: UITextView!
 
-    var noteTitleText: String = ""
-    var noteBodyText: String = ""
+    var noteTitle: String = ""
+    var noteBody: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +22,11 @@ class NoteDetailViewController: UIViewController {
         bodyTextView.textColor = .white
         bodyTextView.backgroundColor = .clear
 
-        titleLabel.text = noteTitleText
-        bodyTextView.text = noteBodyText
+        titleLabel.text = noteTitle
+        bodyTextView.text = noteBody
     }
 
     @IBAction func closeButtonTapped(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
 }

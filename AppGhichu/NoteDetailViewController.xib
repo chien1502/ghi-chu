@@ -10,8 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NoteDetailViewController" customModule="AppGhichu" customModuleProvider="target">
             <connections>
-                <outlet property="bodyTextView" destination="i6H-sT-NnR" id="wK1-UP-8qL"/>
-                <outlet property="titleLabel" destination="jgh-n0-ONg" id="IDk-0C-rJb"/>
+                <outlet property="bodyTextView" destination="i6H-sT-NnR" id="n3i-c0-Wxi"/>
+                <outlet property="titleLabel" destination="jgh-n0-ONg" id="Vod-HX-0DS"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -48,7 +48,7 @@
                         <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </buttonConfiguration>
                     <connections>
-                        <action selector="closeButtonTapped:" destination="-1" eventType="touchUpInside" id="dDS-aI-If4"/>
+                        <action selector="closeButtonTapped:" destination="-1" eventType="touchUpInside" id="vny-3x-Bh6"/>
                     </connections>
                 </button>
             </subviews>

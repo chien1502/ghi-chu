@@ -1,21 +1,18 @@
 import UIKit
 
-// MARK: - Gửi dữ liệu ngược lại (delegate optional)
+// MARK: - Gửi dữ liệu ngược lại (delegate)
 protocol ComposeViewControllerDelegate: AnyObject {
     func didSaveNote(title: String, body: String)
 }
 
 class ComposeViewController: UIViewController {
-
+    var onSave: ((String, String) -> Void)?
     // MARK: - Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var dateLabel: UILabel!
 
-    // Callback closure — dùng khi MainViewController set closure onSave
-    var onSave: ((_ title: String, _ body: String) -> Void)?
-
-    // Delegate (nếu bạn muốn dùng delegate thay closure)
+    // ❌ Đã bỏ closure và notification — chỉ dùng delegate
     weak var delegate: ComposeViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -60,13 +57,10 @@ class ComposeViewController: UIViewController {
             return
         }
 
-        // ✅ Chỉ truyền chữ thật, không thêm “Tiêu đề:” hay “Bắt đầu viết:”
-        onSave?(title, body)
+        // ✅ Chỉ dùng delegate để báo ngược về MainViewController
         delegate?.didSaveNote(title: title, body: body)
 
-        NotificationCenter.default.post(name: NSNotification.Name("noteAdded"), object: nil)
-
-        // ✅ Đóng mà không hiện alert “Đã lưu”
+        // ✅ Đóng màn hiện tại, không cần alert “Đã lưu”
         dismiss(animated: true, completion: nil)
     }
 
@@ -79,5 +73,3 @@ class ComposeViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 }
-
-
