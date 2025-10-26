@@ -1,10 +1,3 @@
-//
-//  NoteDetailViewController.swift
-//  AppGhichu
-//
-//  Created by nguyễn xuân chiến on 9/10/25.
-//
-
 import UIKit
 
 class NoteDetailViewController: UIViewController {
@@ -17,16 +10,17 @@ class NoteDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
-        titleLabel.textColor = .white
-        bodyTextView.textColor = .white
-        bodyTextView.backgroundColor = .clear
-
+        // UI handled by XIB
         titleLabel.text = noteTitle
         bodyTextView.text = noteBody
     }
 
     @IBAction func closeButtonTapped(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        // nếu push thì pop, nếu present thì dismiss
+        if let nav = navigationController {
+            nav.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }

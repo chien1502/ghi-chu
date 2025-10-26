@@ -24,8 +24,6 @@ class MainViewController: UIViewController {
     private func setupUI() {
         dateLabel.textColor = .lightGray
         dateLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        dateLabel.textAlignment = .left
-
         noteTitleLabel.textColor = .white
         noteBodyLabel.textColor = .lightGray
         notesContainerView.isHidden = true
@@ -41,11 +39,6 @@ class MainViewController: UIViewController {
     // MARK: - Load ghi chú từ DB
     func loadNotesFromDatabase() {
         notes = db.getAllNotes()
-        print("Có \(notes.count) ghi chú từ DB:", notes)
-        for note in notes {
-            print("ID: \(note.id), Tiêu đề: \(note.title), Nội dung: \(note.content), Ngày: \(note.dateISO)")
-        }
-
         if let latestNote = notes.last {
             noteTitleLabel.text = latestNote.title
             noteBodyLabel.text = latestNote.content
@@ -57,19 +50,23 @@ class MainViewController: UIViewController {
 
     // MARK: - Nút + thêm ghi chú
     @IBAction func addButtonTapped(_ sender: UIButton) {
-        let composeVC = ComposeViewController(nibName: "ComposeViewController", bundle: nil)
-        composeVC.delegate = self   // ✅ Dùng delegate duy nhất
-        present(composeVC, animated: true, completion: nil)
+        let newPostVC = NewPostViewController(nibName: "NewPostViewController", bundle: nil)
+        newPostVC.delegate = self
+        newPostVC.modalPresentationStyle = .fullScreen  
+        present(newPostVC, animated: true, completion: nil)
     }
 }
 
-// MARK: - Delegate từ ComposeViewController
-extension MainViewController: ComposeViewControllerDelegate {
-    func didSaveNote(title: String, body: String) {
-        // ✅ Lưu vào DB
+// MARK: - Delegate nhận dữ liệu từ NewPostViewController
+extension MainViewController: NewPostViewControllerDelegate {
+    func newPostViewController(_ controller: NewPostViewController, didCreateNoteWithTitle title: String, body: String) {
+        // Lưu vào DB
         _ = db.insertNote(title: title, content: body)
 
-        // ✅ Cập nhật lại giao diện
+        // Cập nhật giao diện
         loadNotesFromDatabase()
+
+        // Đóng NewPost và quay lại Main
+        controller.dismiss(animated: true, completion: nil)
     }
 }
