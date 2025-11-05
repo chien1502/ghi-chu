@@ -20,6 +20,12 @@ class MainViewController: UIViewController {
         loadNotesFromDatabase()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 🔄 Khi quay lại từ Compose, load lại dữ liệu mới
+        loadNotesFromDatabase()
+    }
+
     // MARK: - Cấu hình giao diện
     private func setupUI() {
         dateLabel.textColor = .lightGray
@@ -48,25 +54,9 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: - Nút + thêm ghi chú
     @IBAction func addButtonTapped(_ sender: UIButton) {
-        let newPostVC = NewPostViewController(nibName: "NewPostViewController", bundle: nil)
-        newPostVC.delegate = self
-        newPostVC.modalPresentationStyle = .fullScreen  
-        present(newPostVC, animated: true, completion: nil)
-    }
-}
-
-// MARK: - Delegate nhận dữ liệu từ NewPostViewController
-extension MainViewController: NewPostViewControllerDelegate {
-    func newPostViewController(_ controller: NewPostViewController, didCreateNoteWithTitle title: String, body: String) {
-        // Lưu vào DB
-        _ = db.insertNote(title: title, content: body)
-
-        // Cập nhật giao diện
-        loadNotesFromDatabase()
-
-        // Đóng NewPost và quay lại Main
-        controller.dismiss(animated: true, completion: nil)
-    }
+            let newPostVC = NewPostViewController(nibName: "NewPostViewController", bundle: nil)
+            newPostVC.modalPresentationStyle = .fullScreen
+            present(newPostVC, animated: true)
+        }
 }

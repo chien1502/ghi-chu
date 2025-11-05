@@ -10,10 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="AppGhichu" customModuleProvider="target">
             <connections>
-                <outlet property="dateLabel" destination="KK9-lv-6mf" id="pUs-Eu-CDd"/>
-                <outlet property="noteBodyLabel" destination="xnA-jc-a5U" id="CQm-jk-X04"/>
-                <outlet property="noteTitleLabel" destination="ew1-Am-PaZ" id="NJP-Bc-H8J"/>
-                <outlet property="notesContainerView" destination="Mn0-Go-FQY" id="8t5-YF-Ehc"/>
+                <outlet property="dateLabel" destination="KK9-lv-6mf" id="nRk-k5-DLf"/>
+                <outlet property="noteBodyLabel" destination="xnA-jc-a5U" id="7zM-PG-LzO"/>
+                <outlet property="noteTitleLabel" destination="ew1-Am-PaZ" id="HTq-Y6-vsG"/>
+                <outlet property="notesContainerView" destination="Mn0-Go-FQY" id="0BB-O5-kOu"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="9QR-dP-txd"/>
             </connections>
         </placeholder>
@@ -66,7 +66,7 @@ Hãy chạm vào nút dấu cộng để bắt đầu.</string>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="logodep"/>
                     <connections>
-                        <action selector="addButtonTapped:" destination="-1" eventType="touchUpInside" id="QF7-yX-rdC"/>
+                        <action selector="addButtonTapped:" destination="-1" eventType="touchUpInside" id="agp-z4-XJh"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3E-tL-TVk">
@@ -147,10 +147,10 @@ Hãy chạm vào nút dấu cộng để bắt đầu.</string>
         <image name="logodep" width="32" height="32"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
