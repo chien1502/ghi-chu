@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // ✅ Gọi hàm thêm ghi chú mẫu và lấy đường link
         if let noteId = DatabaseHelper.shared.insertNote(
-            title: "Ghi chú đầu tiên",
-            content: "Nội dung thử",
+            title: "Tiêu đề:",
+            content: "Nội dung:",
             date: Date()
         ) {
             let noteLink = "appghichu://note/\(noteId)"

@@ -11,10 +11,19 @@ class NewPostViewController: UIViewController {
        }
 
     @IBAction func newPostButtonTapped(_ sender: UIButton) {
-        // Mở ComposeViewController để nhập ghi chú mới
         let composeVC = ComposeViewController(nibName: "ComposeViewController", bundle: nil)
+        
+        // ✅ Gọi callback khi note được lưu
+        composeVC.onNoteSaved = {
+            // Tìm MainViewController và reload lại dữ liệu
+            if let presentingVC = self.presentingViewController as? MainViewController {
+                presentingVC.loadNotesFromDatabase()
+            }
+        }
+        
         composeVC.modalPresentationStyle = .fullScreen
         present(composeVC, animated: true, completion: nil)
     }
+
 }
 

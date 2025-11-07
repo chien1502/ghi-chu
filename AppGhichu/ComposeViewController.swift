@@ -2,6 +2,7 @@ import UIKit
 
 class ComposeViewController: UIViewController {
     
+    var onNoteSaved: (() -> Void)?
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var dateLabel: UILabel!

@@ -10,9 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComposeViewController" customModule="AppGhichu" customModuleProvider="target">
             <connections>
-                <outlet property="bodyTextView" destination="QU1-mC-fVh" id="eDj-Iv-J4E"/>
-                <outlet property="dateLabel" destination="NSD-ao-9y4" id="inI-I5-VYU"/>
-                <outlet property="titleTextField" destination="0gu-ff-Kh4" id="ei2-Ly-GSt"/>
+                <outlet property="bodyTextView" destination="QU1-mC-fVh" id="DqJ-GN-piA"/>
+                <outlet property="dateLabel" destination="NSD-ao-9y4" id="A4S-zh-tlC"/>
+                <outlet property="titleTextField" destination="0gu-ff-Kh4" id="6ea-hz-sfi"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -77,7 +77,7 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Xong"/>
                             <connections>
-                                <action selector="doneButtonTapped:" destination="-1" eventType="touchUpInside" id="FbA-NA-hnJ"/>
+                                <action selector="doneButtonTapped:" destination="-1" eventType="touchUpInside" id="FGA-rk-eiy"/>
                             </connections>
                         </button>
                     </subviews>
