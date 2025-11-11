@@ -2,20 +2,16 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    // MARK: - Outlets
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var noteTitleLabel: UILabel!
     @IBOutlet weak var noteBodyTextView: UITextView!
 
-    // MARK: - Dữ liệu
     private let db = DatabaseHelper.shared
     private var notes: [Note] = []
 
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Kiểm tra nil (nếu có)
         if dateLabel == nil || noteTitleLabel == nil || noteBodyTextView == nil {
             print("⚠️ Một hoặc nhiều IBOutlet chưa được nối trong Storyboard!")
             return
@@ -33,7 +29,6 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: - Cấu hình UI
     private func setupUI() {
         dateLabel.textColor = .lightGray
         dateLabel.font = UIFont.systemFont(ofSize: 13, weight: .medium)
@@ -47,7 +42,6 @@ class MainViewController: UIViewController {
         noteBodyTextView.backgroundColor = .clear
     }
 
-    // MARK: - Cập nhật ngày tháng
     private func setupDateLabel() {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "vi_VN")
@@ -55,9 +49,7 @@ class MainViewController: UIViewController {
         dateLabel.text = formatter.string(from: Date()).capitalized
     }
 
-    // MARK: - Load ghi chú
     func loadNotesFromDatabase() {
-        // Lấy danh sách đã được ORDER BY id DESC trong DatabaseHelper
         notes = db.getAllNotes()
 
         guard let latestNote = notes.first else {
@@ -66,13 +58,11 @@ class MainViewController: UIViewController {
             return
         }
 
-        // Hiển thị ghi chú mới nhất
         noteTitleLabel.text = latestNote.title
         noteBodyTextView.text = latestNote.content
 
         print("🆕 Hiển thị ghi chú ID mới nhất: \(latestNote.id)")
     }
-    // MARK: - Nút thêm ghi chú
     @IBAction func addButtonTapped(_ sender: UIButton) {
         let newPostVC = NewPostViewController(nibName: "NewPostViewController", bundle: nil)
         newPostVC.modalPresentationStyle = .fullScreen

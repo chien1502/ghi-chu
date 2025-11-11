@@ -10,13 +10,10 @@ class NoteDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // UI handled by XIB
-        titleLabel.text = noteTitle
         bodyTextView.text = noteBody
     }
 
     @IBAction func closeButtonTapped(_ sender: UIButton) {
-        // nếu push thì pop, nếu present thì dismiss
         if let nav = navigationController {
             nav.popViewController(animated: true)
         } else {
