@@ -10,9 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="AppGhichu" customModuleProvider="target">
             <connections>
-                <outlet property="dateLabel" destination="tbX-T9-CMO" id="kCC-Yk-ld5"/>
-                <outlet property="noteBodyTextView" destination="O0c-fR-SBB" id="y3h-rD-uKt"/>
-                <outlet property="noteTitleLabel" destination="aZV-yi-WTf" id="I2d-RL-V8p"/>
+                <outlet property="dateLabel" destination="tbX-T9-CMO" id="n3b-DQ-fsr"/>
+                <outlet property="noteBodyTextView" destination="O0c-fR-SBB" id="flS-ND-XqT"/>
+                <outlet property="noteTitleLabel" destination="aZV-yi-WTf" id="aeX-mw-MuR"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="9QR-dP-txd"/>
             </connections>
         </placeholder>
@@ -65,7 +65,7 @@ Hãy chạm vào nút dấu cộng để bắt đầu.</string>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="logodep"/>
                     <connections>
-                        <action selector="addButtonTapped:" destination="-1" eventType="touchUpInside" id="JH8-5n-aCo"/>
+                        <action selector="addButtonTapped:" destination="-1" eventType="touchUpInside" id="NjO-ud-xeA"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3E-tL-TVk">
@@ -73,28 +73,28 @@ Hãy chạm vào nút dấu cộng để bắt đầu.</string>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" image="ellipsis.circle" catalog="system"/>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZV-yi-WTf">
-                    <rect key="frame" x="15" y="88" width="379" height="51"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="..., ngày..., thg..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbX-T9-CMO">
-                    <rect key="frame" x="20" y="254" width="155" height="21"/>
+                    <rect key="frame" x="20" y="302" width="155" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="O0c-fR-SBB">
-                    <rect key="frame" x="16" y="147" width="378" height="128"/>
+                    <rect key="frame" x="15" y="195" width="378" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZV-yi-WTf">
+                    <rect key="frame" x="14" y="136" width="379" height="51"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
