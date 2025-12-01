@@ -11,30 +11,111 @@ class MainViewController: UIViewController {
     @IBOutlet weak var noteTitleLabel: UILabel!
     @IBOutlet weak var noteBodyTextView: UITextView!
 
+    @IBOutlet weak var emptyImageView: UIImageView!
+    @IBOutlet weak var emptyTitleLabel: UILabel!
+    @IBOutlet weak var emptySubtitleLabel: UILabel!
+
+    @IBOutlet weak var btn1: UIButton!
+    @IBOutlet weak var lblNum1: UILabel!
+    @IBOutlet weak var lblText1: UILabel!
+
+    @IBOutlet weak var btn2: UIButton!
+    @IBOutlet weak var lblNum2: UILabel!
+    @IBOutlet weak var lblText2: UILabel!
+
+    @IBOutlet weak var btn3: UIButton!
+    @IBOutlet weak var lblNum3: UILabel!
+    @IBOutlet weak var lblText3: UILabel!
+
+    @IBOutlet weak var tblv: UITableView!
+    
     private let db = DatabaseHelper.shared
     private var notes: [Note] = []
 
-    // 3 icon tương ứng
     let icons: [IconData] = [
-        IconData(img: "icon1", title: "Nhật ký"),
-        IconData(img: "icon2", title: "Từ"),
-        IconData(img: "icon3", title: "Năm nay")
+        IconData(img: "icon1", title: "bài viết năm nay"),
+        IconData(img: "icon2", title: "từ"),
+        IconData(img: "icon3", title: "ngày ghi nhật ký")
     ]
-
-    private let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupDateLabel()
         setupUI()
-        setupTableView()
+        setupIcons()
         loadNotesFromDatabase()
+        updateIconData()
+        updateEmptyState()
+
+        tblv.delegate = self
+        tblv.dataSource = self
+
+        let nib = UINib(nibName: "NoteCell", bundle: nil)
+        tblv.register(nib, forCellReuseIdentifier: "NoteCell")
+
+        tblv.separatorStyle = .none
+        tblv.showsVerticalScrollIndicator = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadNotesFromDatabase()
+        updateIconData()
+        tblv.reloadData()
+        updateEmptyState()
+    }
+
+    private func updateEmptyState() {
+        tblv.isHidden = false
+        
+        if notes.isEmpty {
+            emptyImageView.isHidden = false
+            emptyTitleLabel.isHidden = false
+            emptySubtitleLabel.isHidden = false
+        } else {
+            emptyImageView.isHidden = true
+            emptyTitleLabel.isHidden = true
+            emptySubtitleLabel.isHidden = true
+        }
+    }
+
+
+    private func setupIcons() {
+
+        btn1.setImage(UIImage(named: icons[0].img), for: .normal)
+        lblText1.text = icons[0].title
+
+        btn2.setImage(UIImage(named: icons[1].img), for: .normal)
+        lblText2.text = icons[1].title
+
+        btn3.setImage(UIImage(named: icons[2].img), for: .normal)
+        lblText3.text = icons[2].title
+
+        btn1.imageView?.contentMode = .scaleAspectFit
+        btn2.imageView?.contentMode = .scaleAspectFit
+        btn3.imageView?.contentMode = .scaleAspectFit
+    }
+
+    private func updateIconData() {
+        notes = db.getAllNotes()
+
+        let year = Calendar.current.component(.year, from: Date())
+        let countThisYear = notes.filter {
+            Calendar.current.component(.year, from: $0.createdAt) == year
+        }.count
+        lblNum1.text = "\(countThisYear)"
+
+        let keywordCount = notes.filter {
+            $0.title.lowercased().contains("từ") ||
+            $0.content.lowercased().contains("từ")
+        }.count
+        lblNum2.text = "\(keywordCount)"
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let uniqueDays = Set(notes.map { formatter.string(from: $0.createdAt) })
+        lblNum3.text = "\(uniqueDays.count)"
     }
 
     private func setupUI() {
@@ -54,6 +135,7 @@ class MainViewController: UIViewController {
 
     func loadNotesFromDatabase() {
         notes = db.getAllNotes()
+
         guard let latestNote = notes.first else {
             noteTitleLabel.text = "Chưa có ghi chú"
             noteBodyTextView.text = ""
@@ -69,61 +151,29 @@ class MainViewController: UIViewController {
         newPostVC.modalPresentationStyle = .fullScreen
         present(newPostVC, animated: true)
     }
-
-    // MARK: TableView Setup
-    private func setupTableView() {
-
-        // đặt vị trí tableView nằm dưới noteBody
-        tableView.frame = CGRect(
-            x: 0,
-            y: noteBodyTextView.frame.maxY + 20,
-            width: view.bounds.width,
-            height: 150
-        )
-
-        tableView.delegate = self
-        tableView.dataSource = self
-
-        // Cho dùng heightForRowAt
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 100
-
-        view.addSubview(tableView)
-
-        let nib = UINib(nibName: "SummaryCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "SummaryCell")
-
-        tableView.separatorStyle = .none
-    }
 }
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1   // chỉ có 3 icon trong 1 cell
+        return notes.count
     }
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SummaryCell", for: indexPath) as! SummaryCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as! NoteCell
+        let note = notes[indexPath.row]
+        cell.configure(note: note)
+        cell.contentView.backgroundColor = UIColor.secondarySystemBackground
+        cell.backgroundColor = .clear
+        tableView.backgroundColor = UIColor.systemBackground
 
-        // set icon (bạn thay tên ảnh nếu dùng Assets riêng)
-        cell.configure(
-            icon1: UIImage(named: icons[0].img),
-            title1: icons[0].title,
-            icon2: UIImage(named: icons[1].img),
-            title2: icons[1].title,
-            icon3: UIImage(named: icons[2].img),
-            title3: icons[2].title
-        )
 
         return cell
     }
 
-    // 👉 CHỈNH CHIỀU CAO CELL TẠI ĐÂY
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70   // chuẩn nhất giống app mẫu
+        return 70
     }
-
 }
