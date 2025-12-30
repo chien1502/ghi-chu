@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MoreMenuViewController" customModule="AppGhichu" customModuleProvider="target">
+            <connections>
+                <outlet property="bookmarkButton" destination="9b5-JI-jow" id="q7V-gF-8lz"/>
+                <outlet property="containerView" destination="B3Z-Og-Ibm" id="waG-b4-d79"/>
+                <outlet property="deleteButton" destination="HYD-CI-eDZ" id="PyK-xX-7a6"/>
+                <outlet property="editButton" destination="qLc-Lh-yZi" id="dZ8-SF-Q9F"/>
+                <outlet property="printButton" destination="Te2-09-Czd" id="k8p-41-FkT"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B3Z-Og-Ibm">
+                    <rect key="frame" x="56" y="85" width="280" height="200"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9b5-JI-jow">
+                            <rect key="frame" x="229.66666666666669" y="54" width="46.333333333333314" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="hwq-wl-x3M"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system">
+                                <color key="baseForegroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Te2-09-Czd">
+                            <rect key="frame" x="222" y="98" width="54" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="KCB-X3-XJB"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="printer.inverse" catalog="system">
+                                <color key="baseForegroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LRD-wo-789">
+                            <rect key="frame" x="8.0000000000000036" y="17" width="53.333333333333343" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="26" id="v9G-gJ-f0u"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Sửa">
+                                <color key="baseForegroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="editTapped:" destination="-1" eventType="touchUpInside" id="xde-28-YG2"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZKP-fS-p71">
+                            <rect key="frame" x="8" y="100" width="38" height="28"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="5CR-rf-rTD"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="In">
+                                <color key="baseForegroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="printTapped:" destination="-1" eventType="touchUpInside" id="QEk-sq-YTo"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="51m-Hc-s5J">
+                            <rect key="frame" x="8" y="163" width="54" height="39"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="39" id="c2B-FC-j8A"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Xoá">
+                                <color key="baseForegroundColor" red="1" green="0.31420099289999998" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="deleteTapped:" destination="-1" eventType="touchUpInside" id="BWl-Ze-gel"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mql-eb-sO6">
+                            <rect key="frame" x="8" y="55" width="99" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="W7F-Xf-JnV"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Dấu trang">
+                                <color key="baseForegroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="bookmarkTapped:" destination="-1" eventType="touchUpInside" id="l1Z-pN-4lN"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qLc-Lh-yZi">
+                            <rect key="frame" x="230" y="16" width="46" height="29"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="29" id="tYu-NP-4Ao"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="pencil" catalog="system">
+                                <color key="baseForegroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HYD-CI-eDZ">
+                            <rect key="frame" x="228" y="165" width="48" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="tC5-T3-RFG"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system">
+                                <color key="baseForegroundColor" red="1" green="0.31420099289999998" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </buttonConfiguration>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Te2-09-Czd" secondAttribute="trailing" constant="4" id="2kJ-db-Gpi"/>
+                        <constraint firstAttribute="trailing" secondItem="HYD-CI-eDZ" secondAttribute="trailing" constant="4" id="6Eu-Ju-CVL"/>
+                        <constraint firstAttribute="height" constant="200" id="BlX-yd-Wv9"/>
+                        <constraint firstItem="ZKP-fS-p71" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="CJf-qM-Iz4"/>
+                        <constraint firstItem="ZKP-fS-p71" firstAttribute="top" secondItem="Mql-eb-sO6" secondAttribute="bottom" constant="13" id="F97-KV-LWD"/>
+                        <constraint firstItem="Mql-eb-sO6" firstAttribute="top" secondItem="LRD-wo-789" secondAttribute="bottom" constant="12" id="JeK-sH-tTS"/>
+                        <constraint firstItem="qLc-Lh-yZi" firstAttribute="top" secondItem="B3Z-Og-Ibm" secondAttribute="top" constant="16" id="KJH-oe-yVk"/>
+                        <constraint firstAttribute="trailing" secondItem="9b5-JI-jow" secondAttribute="trailing" constant="4" id="Mzy-Xw-ddh"/>
+                        <constraint firstItem="LRD-wo-789" firstAttribute="top" secondItem="B3Z-Og-Ibm" secondAttribute="top" constant="17" id="WhX-gi-bQG"/>
+                        <constraint firstItem="51m-Hc-s5J" firstAttribute="top" secondItem="ZKP-fS-p71" secondAttribute="bottom" constant="35" id="YkR-Je-uUf"/>
+                        <constraint firstAttribute="bottom" secondItem="HYD-CI-eDZ" secondAttribute="bottom" id="bht-cT-myZ"/>
+                        <constraint firstItem="9b5-JI-jow" firstAttribute="top" secondItem="qLc-Lh-yZi" secondAttribute="bottom" constant="9" id="ctt-ch-xQx"/>
+                        <constraint firstItem="HYD-CI-eDZ" firstAttribute="top" secondItem="Te2-09-Czd" secondAttribute="bottom" constant="32" id="e4C-cV-VuN"/>
+                        <constraint firstAttribute="trailing" secondItem="qLc-Lh-yZi" secondAttribute="trailing" constant="4" id="gRd-bV-zkN"/>
+                        <constraint firstItem="Mql-eb-sO6" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="mJW-33-TH4"/>
+                        <constraint firstItem="LRD-wo-789" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="qWf-RQ-Zm1"/>
+                        <constraint firstItem="Te2-09-Czd" firstAttribute="top" secondItem="9b5-JI-jow" secondAttribute="bottom" constant="9" id="rpD-cp-x76"/>
+                        <constraint firstItem="51m-Hc-s5J" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="sWI-5h-bkn"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="B3Z-Og-Ibm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="56" id="9Xt-L4-HM4"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="B3Z-Og-Ibm" secondAttribute="bottom" constant="499" id="Bdy-7G-4e1"/>
+                <constraint firstItem="B3Z-Og-Ibm" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="85" id="HKZ-R8-JCM"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="B3Z-Og-Ibm" secondAttribute="trailing" constant="57" id="gm5-CS-nda"/>
+            </constraints>
+            <point key="canvasLocation" x="70.992366412213741" y="18.30985915492958"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bookmark" catalog="system" width="110" height="128"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="printer.inverse" catalog="system" width="128" height="111"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

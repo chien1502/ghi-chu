@@ -40,7 +40,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupDateLabel()
         setupUI()
         setupIcons()
@@ -53,7 +53,9 @@ class MainViewController: UIViewController {
 
         let nib = UINib(nibName: "NoteCell", bundle: nil)
         tblv.register(nib, forCellReuseIdentifier: "NoteCell")
-
+        
+        tblv.backgroundColor = .black
+        tblv.backgroundView = nil
         tblv.separatorStyle = .none
         tblv.showsVerticalScrollIndicator = false
     }
@@ -124,6 +126,18 @@ class MainViewController: UIViewController {
         noteBodyTextView.textColor = .lightGray
         noteBodyTextView.isEditable = false
         noteBodyTextView.backgroundColor = .clear
+
+            noteTitleLabel.backgroundColor = UIColor(white: 0.2, alpha: 1)
+            noteTitleLabel.layer.cornerRadius = 10
+            noteTitleLabel.clipsToBounds = true
+            noteTitleLabel.textAlignment = .left
+
+            noteBodyTextView.textColor = .lightGray
+            noteBodyTextView.isEditable = false
+            noteBodyTextView.backgroundColor = UIColor(white: 0.18, alpha: 1)
+            noteBodyTextView.layer.cornerRadius = 12
+            noteBodyTextView.clipsToBounds = true
+            
     }
 
     private func setupDateLabel() {
@@ -165,15 +179,25 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as! NoteCell
         let note = notes[indexPath.row]
         cell.configure(note: note)
-        cell.contentView.backgroundColor = UIColor.secondarySystemBackground
-        cell.backgroundColor = .clear
-        tableView.backgroundColor = UIColor.systemBackground
-
+//        cell.contentView.backgroundColor = UIColor.secondarySystemBackground
+//        cell.backgroundColor = .clear
+//        tableView.backgroundColor = UIColor.black
+//        tableView.separatorStyle = .none
+        cell.onMoreTapped = { [weak self] in
+            self?.showMoreMenu()
+        }
 
         return cell
     }
+    func showMoreMenu() {
+        let vc = MoreMenuViewController(nibName: "MoreMenuViewController", bundle: nil)
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true)
+    }
+
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 400
     }
 }

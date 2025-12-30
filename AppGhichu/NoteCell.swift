@@ -2,7 +2,6 @@ import UIKit
 
 class NoteCell: UITableViewCell {
 
-    // UI đã kéo từ XIB
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var lblMonth: UILabel!
     @IBOutlet weak var imgIcon: UIImageView!
@@ -10,15 +9,40 @@ class NoteCell: UITableViewCell {
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var btnMore: UIButton!
 
+    // Callback gửi ra MainViewController
+    var onMoreTapped: (() -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        contentView.backgroundColor = UIColor.secondarySystemBackground
-        contentView.layer.cornerRadius = 12
-        contentView.layer.masksToBounds = true
-        
+        // UI
+        contentView.backgroundColor = .clear
         backgroundColor = .clear
-        selectionStyle = .none
+
+        cardView.backgroundColor = UIColor.black
+        cardView.layer.cornerRadius = 12
+        cardView.clipsToBounds = true
+
+        imgIcon.contentMode = .scaleAspectFill
+        imgIcon.clipsToBounds = true
+
+        lblMonth.textColor = .white
+        lblTitle.textColor = .white
+        lblDate.textColor = .white
+
+        // Đảm bảo nút 3 chấm luôn có target
+        btnMore.addTarget(self, action: #selector(handleMoreTap), for: .touchUpInside)
+    }
+
+    @objc private func handleMoreTap() {
+        print("👉 Button 3 chấm được bấm")   // TEST
+        onMoreTapped?()
+    }
+
+    // Khi cell được reuse → phải reset target
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        onMoreTapped = nil
     }
 
     func configure(note: Note) {
@@ -26,7 +50,7 @@ class NoteCell: UITableViewCell {
         lblTitle.text = note.title
         lblDate.text = getFullDate(from: note.dateISO)
 
-        imgIcon.image = UIImage(named: "icon1")
+        imgIcon.image = UIImage(named: "img_icon") ?? UIImage(systemName: "photo")
     }
 
     private func getMonth(from iso: String) -> String {
@@ -47,10 +71,5 @@ class NoteCell: UITableViewCell {
             return df.string(from: date).capitalized
         }
         return ""
-    }
-
-    @IBAction func moreButtonTapped(_ sender: UIButton) {
-        print("Nhấn nút ⋯ cho ghi chú: \(lblTitle.text ?? "")")
-        // Bạn có thể dùng closure hoặc delegate để thông báo ViewController
     }
 }

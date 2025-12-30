@@ -39,7 +39,11 @@ class ComposeViewController: UIViewController {
         }
         
         
-        DatabaseHelper.shared.insertNote(title: title, content: body)
+        let formatter = ISO8601DateFormatter()
+        let dateISO = formatter.string(from: Date())
+
+        DatabaseHelper.shared.insertNote(title: title, content: body, dateISO: dateISO)
+
         
 
         if let presentingVC = presentingViewController {

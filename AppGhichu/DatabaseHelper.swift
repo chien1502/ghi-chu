@@ -1,172 +1,171 @@
 import Foundation
 import SQLite3
-import Darwin // để dùng unlink(), errno, strerror
 
 class DatabaseHelper {
+
     static let shared = DatabaseHelper()
-    private let dbPath: String = "notes.sqlite"
     private var db: OpaquePointer?
 
     private init() {
-        db = openDatabase()
+        openDatabase()
         createTable()
     }
 
-    // MARK: - Mở hoặc khôi phục CSDL
-    private func openDatabase() -> OpaquePointer? {
+    // MARK: - Open DB
+    func openDatabase() {
         let fileURL = try! FileManager.default
             .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            .appendingPathComponent(dbPath)
+            .appendingPathComponent("notes.sqlite")
 
-        var dbPointer: OpaquePointer? = nil
-        let flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX
-
-        func tryOpen() -> Bool {
-            if sqlite3_open_v2(fileURL.path, &dbPointer, flags, nil) == SQLITE_OK {
-                print("✅ Đã mở CSDL tại: \(fileURL.path)")
-                return true
-            } else {
-                if dbPointer != nil {
-                    sqlite3_close(dbPointer)
-                    dbPointer = nil
-                }
-                return false
-            }
-        }
-
-        // 🔹 Thử mở CSDL lần đầu
-        if tryOpen() {
-            return dbPointer
-        }
-
-        print("⚠️ Không thể mở CSDL (có thể bị khoá hoặc hỏng). Thử reset...")
-
-        // 🔹 Xóa file WAL / SHM để giải phóng lock
-        let paths = [
-            fileURL.path,
-            fileURL.path + "-wal",
-            fileURL.path + "-shm"
-        ]
-
-        for path in paths {
-            if FileManager.default.fileExists(atPath: path) {
-                do {
-                    try FileManager.default.removeItem(atPath: path)
-                    print("🗑️ Đã xoá file: \(path)")
-                } catch {
-                    print("⚠️ Không thể xoá file bằng FileManager: \(path). Thử unlink()...")
-
-                    let cPath = (path as NSString).utf8String
-                    if let cPath = cPath {
-                        if unlink(cPath) == 0 {
-                            print("🗑️ unlink() thành công cho \(path)")
-                        } else {
-                            let e = errno
-                            let errStr = String(cString: strerror(e))
-                            print("❌ unlink() thất bại cho \(path): errno=\(e) (\(errStr))")
-                        }
-                    }
-                }
-            }
-        }
-
-        // 🔹 Thử mở lại
-        if tryOpen() {
-            print("✅ Đã khôi phục và mở lại CSDL thành công.")
-            return dbPointer
-        }
-
-        print("🚫 Vẫn không thể tạo lại CSDL.")
-        return nil
-    }
-
-    // MARK: - Tạo bảng notes
-    private func createTable() {
-        guard db != nil else {
-            print("⚠️ Không thể tạo bảng vì DB chưa mở.")
+        if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
+            print("❌ Không thể mở database.")
             return
         }
 
-        let createTableString = """
-        CREATE TABLE IF NOT EXISTS notes(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        content TEXT,
-        dateISO TEXT);
+        print("📂 DB path: \(fileURL.path)")
+    }
+
+    // MARK: - Create Table
+    func createTable() {
+        let sql = """
+        CREATE TABLE IF NOT EXISTS notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            content TEXT,
+            dateISO TEXT
+        );
         """
 
-        var statement: OpaquePointer? = nil
-        if sqlite3_prepare_v2(db, createTableString, -1, &statement, nil) == SQLITE_OK {
-            if sqlite3_step(statement) == SQLITE_DONE {
-                print("✅ Bảng notes đã sẵn sàng.")
-            } else {
-                print("⚠️ Không thể tạo bảng notes.")
-            }
+        if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
+            print("❌ Lỗi tạo bảng notes.")
         } else {
-            print("⚠️ Lỗi prepare createTable.")
+            print("✔️ Tạo bảng notes OK.")
         }
-        sqlite3_finalize(statement)
     }
 
-    // MARK: - Thêm ghi chú
-    func insertNote(title: String, content: String, date: Date = Date()) -> Int64? {
-        guard db != nil else {
-            print("⚠️ Không thể thêm ghi chú vì DB chưa mở.")
-            return nil
-        }
+    // MARK: - Insert
+    func insertNote(title: String, content: String, dateISO: String) {
+        let sql = "INSERT INTO notes (title, content, dateISO) VALUES (?, ?, ?);"
+        var stmt: OpaquePointer?
 
-        let insertSQL = "INSERT INTO notes (title, content, dateISO) VALUES (?, ?, ?);"
-        var statement: OpaquePointer? = nil
-        var lastID: Int64?
+        if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
 
-        if sqlite3_prepare_v2(db, insertSQL, -1, &statement, nil) == SQLITE_OK {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            let dateStr = formatter.string(from: date)
+            sqlite3_bind_text(stmt, 1, (title as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(stmt, 2, (content as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(stmt, 3, (dateISO as NSString).utf8String, -1, nil)
 
-            sqlite3_bind_text(statement, 1, (title as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 2, (content as NSString).utf8String, -1, nil)
-            sqlite3_bind_text(statement, 3, (dateStr as NSString).utf8String, -1, nil)
-
-            if sqlite3_step(statement) == SQLITE_DONE {
-                lastID = sqlite3_last_insert_rowid(db)
-                print("✅ Thêm ghi chú thành công, ID: \(lastID!)")
+            if sqlite3_step(stmt) == SQLITE_DONE {
+                print("📝 Thêm note thành công.")
             } else {
-                print("⚠️ Không thể thêm ghi chú hoặc không lấy được ID.")
+                let errmsg = String(cString: sqlite3_errmsg(db!))
+                print("❌ Lỗi thêm note: \(errmsg)")
             }
+
         } else {
-            print("⚠️ Lỗi prepare insertNote.")
+            let errmsg = String(cString: sqlite3_errmsg(db!))
+            print("❌ Lỗi prepare insertNote: \(errmsg)")
         }
 
-        sqlite3_finalize(statement)
-        return lastID
+        sqlite3_finalize(stmt)
     }
 
-    // MARK: - Lấy tất cả ghi chú
+    // MARK: - Get all notes
     func getAllNotes() -> [Note] {
-        guard db != nil else {
-            print("⚠️ Không thể truy vấn vì DB chưa mở.")
-            return []
-        }
 
-        var notes: [Note] = []
-        let query = "SELECT * FROM notes ORDER BY id DESC;"
-        var statement: OpaquePointer? = nil
+        let sql = "SELECT id, title, content, dateISO FROM notes ORDER BY id DESC;"
+        var stmt: OpaquePointer?
+        var list: [Note] = []
 
-        if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
-            while sqlite3_step(statement) == SQLITE_ROW {
-                let id = sqlite3_column_int64(statement, 0)
-                let title = String(cString: sqlite3_column_text(statement, 1))
-                let content = String(cString: sqlite3_column_text(statement, 2))
-                let dateISO = String(cString: sqlite3_column_text(statement, 3))
-                notes.append(Note(id: id, title: title, content: content, dateISO: dateISO))
+        if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
+
+            while sqlite3_step(stmt) == SQLITE_ROW {
+
+                let id = sqlite3_column_int64(stmt, 0)
+                let title = String(cString: sqlite3_column_text(stmt, 1))
+                let content = String(cString: sqlite3_column_text(stmt, 2))
+                let dateISO = String(cString: sqlite3_column_text(stmt, 3))
+
+                let note = Note(id: id, title: title, content: content, dateISO: dateISO)
+                list.append(note)
             }
-            print("✅ Đã lấy \(notes.count) ghi chú từ DB.")
+
         } else {
-            print("❌ Không thể truy vấn ghi chú.")
+            let errmsg = String(cString: sqlite3_errmsg(db!))
+            print("❌ Lỗi getAllNotes: \(errmsg)")
         }
 
-        sqlite3_finalize(statement)
-        return notes
+        sqlite3_finalize(stmt)
+        return list
+    }
+
+    // MARK: - Delete by ID
+    func deleteNote(id: Int64) {
+        let sql = "DELETE FROM notes WHERE id = ?;"
+        var stmt: OpaquePointer?
+
+        if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
+
+            sqlite3_bind_int64(stmt, 1, id)
+
+            if sqlite3_step(stmt) == SQLITE_DONE {
+                print("🗑️ Xoá note id=\(id) thành công.")
+            } else {
+                let errmsg = String(cString: sqlite3_errmsg(db!))
+                print("❌ Lỗi xoá note id=\(id): \(errmsg)")
+            }
+        } else {
+            let errmsg = String(cString: sqlite3_errmsg(db!))
+            print("❌ Lỗi prepare deleteNote: \(errmsg)")
+        }
+
+        sqlite3_finalize(stmt)
+    }
+
+    // MARK: - Delete all notes
+    func deleteAllNotes() {
+        guard let db = db else {
+            print("⚠️ Không thể xoá vì DB chưa mở.")
+            return
+        }
+
+        let sql = "DELETE FROM notes;"
+        var stmt: OpaquePointer?
+
+        if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
+
+            if sqlite3_step(stmt) == SQLITE_DONE {
+                print("🧹 Xoá toàn bộ ghi chú thành công.")
+            } else {
+                let errmsg = String(cString: sqlite3_errmsg(db))
+                print("❌ Lỗi khi xoá tất cả ghi chú: \(errmsg)")
+            }
+
+        } else {
+            let errmsg = String(cString: sqlite3_errmsg(db))
+            print("❌ Lỗi prepare deleteAllNotes: \(errmsg)")
+        }
+
+        sqlite3_finalize(stmt)
+    }
+
+    // MARK: - Delete DB files (reset hoàn toàn database)
+    func resetDatabaseFile() {
+        let fm = FileManager.default
+        let folder = try! fm.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+
+        let files = [
+            folder.appendingPathComponent("notes.sqlite"),
+            folder.appendingPathComponent("notes.sqlite-wal"),
+            folder.appendingPathComponent("notes.sqlite-shm")
+        ]
+
+        for file in files {
+            if fm.fileExists(atPath: file.path) {
+                try? fm.removeItem(at: file)
+                print("🗑 Xoá file: \(file.lastPathComponent)")
+            }
+        }
+
+        print("🔄 Database đã reset, sẽ tạo lại khi app chạy.")
     }
 }
