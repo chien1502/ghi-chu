@@ -1,8 +1,10 @@
 import UIKit
+var note: Note?
+var onEdit: ((Note) -> Void)?
 
 class MoreMenuViewController: UIViewController {
 
-    // View bao quanh menu
+    var onEdit: (() -> Void)?
     @IBOutlet weak var containerView: UIView!
 
     @IBOutlet weak var editButton: UIButton!
@@ -13,17 +15,25 @@ class MoreMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Nền mờ bên ngoài
         view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
 
-        // Bo góc menu
         containerView.layer.cornerRadius = 16
         containerView.clipsToBounds = true
     }
 
     @IBAction func editTapped(_ sender: UIButton) {
-        dismiss(animated: true)
-        print("Sửa")
+
+        if let parentVC = presentingViewController {
+
+               dismiss(animated: true) {
+                   let vc = EditNoteViewController(nibName: "EditNoteViewController", bundle: nil)
+                   vc.modalPresentationStyle = .fullScreen
+                   vc.note = note
+
+                   parentVC.present(vc, animated: true)
+               }
+           }
+
     }
 
     @IBAction func bookmarkTapped(_ sender: UIButton) {
@@ -41,7 +51,6 @@ class MoreMenuViewController: UIViewController {
         print("Xóa")
     }
 
-    // Bấm ra ngoài tắt
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         dismiss(animated: true)
     }

@@ -1,6 +1,7 @@
 import UIKit
 
 class NewPostViewController: UIViewController {
+    var editingNote: Note?
 
     override func viewDidLoad() {
         super.viewDidLoad()

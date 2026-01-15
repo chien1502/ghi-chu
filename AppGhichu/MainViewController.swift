@@ -1,4 +1,5 @@
 import UIKit
+var selectedNote: Note?
 
 struct IconData {
     let img: String
@@ -189,6 +190,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 
         return cell
     }
+    
     func showMoreMenu() {
         let vc = MoreMenuViewController(nibName: "MoreMenuViewController", bundle: nil)
         vc.modalPresentationStyle = .overCurrentContext
